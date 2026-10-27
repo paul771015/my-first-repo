@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+import { ROUTES } from "../constants/routes";
 
 export class LoginPage {
     readonly page: Page;
@@ -13,9 +14,8 @@ export class LoginPage {
         this.loginButton = page.locator('[data-test="login-button"]');
         this.errorMessage = page.locator('[data-test="error"]');
     }
-    async goto(url: string) {
-        await this.page.goto(url);
-        return this;
+    async open() {
+        await this.page.goto(ROUTES.login);
     }
     async login(username: string, password: string) {
         await this.usernameInput.fill(username);
