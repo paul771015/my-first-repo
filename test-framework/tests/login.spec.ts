@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { ROUTES } from '../constants/routes';
-import { TEST_USER_DATA } from '../constants/texts';
+import { TEST_USER_DATA } from '../constants/test-data';
 import { MESSAGES } from '../constants/messages';
 
 test.describe('Sauce Demo Authentication', () => {
