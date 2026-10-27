@@ -1,7 +1,7 @@
-import { test, expect } from '../fixtures/pages.fixture';
-import { TEST_USER_DATA } from '../constants/test-data';
-import { PAGE_TITLES } from '../constants/texts';
-import { MESSAGES } from '../constants/messages';
+import { test, expect } from '../test-framework/fixtures/pages.fixture';
+import { TEST_USER_DATA } from '../test-framework/constants/test-data';
+import { PAGE_TITLES } from '../test-framework/constants/texts';
+import { MESSAGES } from '../test-framework/constants/messages';
 
 test('End-to-end purchase scenario', async ({
     loginPage,

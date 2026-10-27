@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/login.page';
-import { ROUTES } from '../constants/routes';
-import { TEST_USER_DATA } from '../constants/test-data';
-import { MESSAGES } from '../constants/messages';
+import { LoginPage } from '../test-framework/pages/login.page';
+import { ROUTES } from '../test-framework/constants/routes';
+import { TEST_USER_DATA } from '../test-framework/constants/test-data';
+import { MESSAGES } from '../test-framework/constants/messages';
 
 test.describe('Sauce Demo Authentication', () => {
     test('Login with standard user', async ({ page, baseURL }) => {
