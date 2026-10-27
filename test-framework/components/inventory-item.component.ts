@@ -25,4 +25,7 @@ export class InventoryItemComponent {
     async isInCart() {
         return this.removeButton.isVisible();
     }
+    async getName() {
+        return await this.name.textContent() ?? '';
+    }
 }
