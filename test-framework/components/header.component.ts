@@ -6,10 +6,10 @@ export class HeaderComponent {
     readonly logoutLink: Locator;
     readonly cartLink: Locator;
     constructor(page: Page) {
-        this.openMenuButton = page.locator('[data-test="open-menu"]')
-        this.closeMenuButton = page.locator('[data-test="close-menu"]')
-        this.logoutLink = page.locator('[data-test="logout-sidebar-link"]')
-        this.cartLink = page.locator('[data-test="shopping-cart-link"]');
+        this.openMenuButton = page.getByTestId('open-menu')
+        this.closeMenuButton = page.getByTestId('close-menu')
+        this.logoutLink = page.getByTestId('logout-sidebar-link')
+        this.cartLink = page.getByTestId('shopping-cart-link');
     }
     async openMenu() {
         if (await this.openMenuButton.isVisible()){
