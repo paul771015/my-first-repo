@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { test, expect } from '../test-framework/fixtures/pages.fixture';
 import { TEST_USER_DATA } from '../test-framework/constants/test-data';
 import { PAGE_TITLES } from '../test-framework/constants/texts';
@@ -37,7 +38,10 @@ test('End-to-end purchase scenario', async ({
         await cartPage.checkout();
     });
     await test.step('Fill in the customer information', async () => {
-        await checkoutUserInfoPage.fillUserInfo();
+        const firstName: string = faker.person.firstName();
+        const lastName: string = faker.person.lastName();
+        const zipCode: string = faker.location.zipCode();
+        await checkoutUserInfoPage.fillUserInfo(firstName, lastName, zipCode);
     });
     await test.step('Continue checkout', async () => {
         await checkoutUserInfoPage.continue();
