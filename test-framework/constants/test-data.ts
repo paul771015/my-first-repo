@@ -30,4 +30,5 @@ export const API_TEST = {
         auth: '/auth',
         booking: '/booking',
     },
+    invalidId: 99999,
 } as const;

@@ -1,5 +1,6 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
 import { API_TEST } from '../test-framework/constants/test-data';
+import { HTTP_STATUS } from '../test-framework/constants/http-status';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -32,7 +33,7 @@ test.beforeEach(async ({}, testInfo) => {
 test.describe('API tests for Restful-booker', () => {
     test('Create - POST', { tag: '@creator' }, async () => {
         const res = await api.post(API_TEST.routes.booking, { data: API_TEST.userData });
-        expect(res.status()).toBe(200);
+        expect(res.status()).toBe(HTTP_STATUS.ok);
         const body = await res.json();
         expect(body).toHaveProperty('bookingid');
         expect(typeof body.bookingid).toBe('number');
@@ -40,24 +41,44 @@ test.describe('API tests for Restful-booker', () => {
         bookingId = body.bookingid;
     });
     test('Read - GET', async () => {
-        const res = await api.get(`${API_TEST.routes.booking}/${bookingId}`);
-        expect(res.status()).toBe(200);
-        expect(await res.json()).toEqual(API_TEST.userData);
+        const notFoundRes = await api.get(`${API_TEST.routes.booking}/${API_TEST.invalidId}`);
+        expect(notFoundRes.status()).toBe(HTTP_STATUS.notFound);
+        const successRes = await api.get(`${API_TEST.routes.booking}/${bookingId}`);
+        expect(successRes.status()).toBe(HTTP_STATUS.ok);
+        expect(await successRes.json()).toEqual(API_TEST.userData);
     });
     test('Update - PUT', async () => {
-        const res = await api.put(`${API_TEST.routes.booking}/${bookingId}`, {
+        const forbiddenRes = await api.put(`${API_TEST.routes.booking}/${bookingId}`, {
+            data: API_TEST.newUserData,
+        });
+        expect(forbiddenRes.status()).toBe(HTTP_STATUS.forbidden);
+        const notFoundRes = await api.put(`${API_TEST.routes.booking}/${API_TEST.invalidId}`, {
             headers: { Cookie: `token=${token}` },
             data: API_TEST.newUserData,
         });
-        expect(res.status()).toBe(200);
-        expect(await res.json()).toEqual(API_TEST.newUserData);
+        // restful-booker возвращает 405 вместо 404 для PUT по несуществующему id
+        expect(notFoundRes.status()).toBe(HTTP_STATUS.methodNotAllowed);
+        const successRes = await api.put(`${API_TEST.routes.booking}/${bookingId}`, {
+            headers: { Cookie: `token=${token}` },
+            data: API_TEST.newUserData,
+        });
+        expect(successRes.status()).toBe(HTTP_STATUS.ok);
+        expect(await successRes.json()).toEqual(API_TEST.newUserData);
     });
     test('Delete - DELETE', async () => {
-        const res = await api.delete(`${API_TEST.routes.booking}/${bookingId}`, {
+        const forbiddenRes = await api.delete(`${API_TEST.routes.booking}/${bookingId}`);
+        expect(forbiddenRes.status()).toBe(HTTP_STATUS.forbidden);
+        const notFoundRes = await api.delete(`${API_TEST.routes.booking}/${API_TEST.invalidId}`, {
             headers: { Cookie: `token=${token}` },
         });
-        expect(res.status()).toBe(201);
-        expect((await api.get(`${API_TEST.routes.booking}/${bookingId}`)).status()).toBe(404);
+        // restful-booker возвращает 405 вместо 404 для DELETE по несуществующему id
+        expect(notFoundRes.status()).toBe(HTTP_STATUS.methodNotAllowed);
+        const successRes = await api.delete(`${API_TEST.routes.booking}/${bookingId}`, {
+            headers: { Cookie: `token=${token}` },
+        });
+        expect(successRes.status()).toBe(HTTP_STATUS.created);
+        const deletedBookingRes = await api.get(`${API_TEST.routes.booking}/${bookingId}`);
+        expect(deletedBookingRes.status()).toBe(HTTP_STATUS.notFound);
         bookingId = undefined;
     });
 });
