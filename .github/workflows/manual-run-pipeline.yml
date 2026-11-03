@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Node.js 
-        uses: actions/setup-node@v4 
+        uses: actions/setup-node@v7 
         with: 
           node-version: 24.21.0
           cache: npm
@@ -26,14 +26,14 @@ jobs:
           PLAYWRIGHT_HTML_REPORT: playwright-report-ui
       - name: Upload API test report  
         if: ${{ !cancelled() }}  
-        uses: actions/upload-artifact@v4  
+        uses: actions/upload-artifact@v7  
         with:  
           name: playwright-report-api  
           path: playwright-report-api/
           retention-days: 7 
       - name: Upload UI test report  
         if: ${{ !cancelled() }}  
-        uses: actions/upload-artifact@v4  
+        uses: actions/upload-artifact@v7  
         with:  
           name: playwright-report-ui  
           path: playwright-report-ui/
