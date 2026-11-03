@@ -3,7 +3,7 @@ import { ROUTES } from '../test-framework/constants/routes';
 import { TEST_USER_DATA } from '../test-framework/constants/test-data';
 import { MESSAGES } from '../test-framework/constants/messages';
 
-test.describe('Sauce Demo Authentication', () => {
+test.describe('Sauce Demo Authentication', { tag: '@ui' }, () => {
     test('Login with standard user', async ({ loginPage, page, baseURL }) => {
         await loginPage.open();
         await loginPage.login(TEST_USER_DATA.validUsername, TEST_USER_DATA.password);
@@ -13,5 +13,5 @@ test.describe('Sauce Demo Authentication', () => {
         await loginPage.open();
         await loginPage.login(TEST_USER_DATA.lockedUsername, TEST_USER_DATA.password);
         await expect(loginPage.errorMessage).toHaveText(MESSAGES.errors.lockedUser);
-    })
+    });
 });

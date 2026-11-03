@@ -30,7 +30,7 @@ test.beforeEach(async ({}, testInfo) => {
     }
 });
 
-test.describe('API tests for Restful-booker', () => {
+test.describe('API tests for Restful-booker', { tag: '@api' }, () => {
     test.describe('Create booking', () => {
         test('succeeds with valid data', { tag: '@creator' }, async () => {
             const res = await api.post(API_TEST.routes.booking, { data: API_TEST.userData });
