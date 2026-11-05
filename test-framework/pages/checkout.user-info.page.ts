@@ -22,13 +22,13 @@ export class CheckoutUserInfoPage extends BasePage {
         await this.continueButton.click();
     }
     async fillFirstName(firstName: string) {
-        await this.firstNameInput.fill(firstName);
+        await this.focusAndFill(this.firstNameInput, firstName);
     }
     async fillLastName(lastName: string) {
-        await this.lastNameInput.fill(lastName);
+        await this.focusAndFill(this.lastNameInput, lastName);
     }
     async fillPostalCode(zipCode: string) {
-        await this.postalCodeInput.fill(zipCode);
+        await this.focusAndFill(this.postalCodeInput, zipCode);
     }
     async fillUserInfo(firstName: string, lastName: string, zipCode: string) {
         await this.fillFirstName(firstName);
